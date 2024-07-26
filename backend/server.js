@@ -7,6 +7,8 @@ import userRoutes from './routes/userRoutes.js';
 import { v2 as cloudinary } from "cloudinary";
 import postRoutes from './routes/postRoutes.js';
 import notificationRoutes from './routes/notificationRoutes.js';
+// import bodyParser from 'body-parser';
+
 
 dotenv.config();
 cloudinary.config({
@@ -17,8 +19,11 @@ cloudinary.config({
 const app = express();
 const port = process.env.PORT || 5000
 
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+// app.use(express.json())
+// app.use(express.urlencoded({ extended: true }))
+// Increase payload size limit, size should not be too large as attackers can access
+app.use(express.json({ limit: '5mb' })); // Adjust the limit as needed
+app.use(express.urlencoded({ limit: '10mb', extended: true }));
 app.use(cookieParser())
 
 app.use('/api/auth', authRoutes)
