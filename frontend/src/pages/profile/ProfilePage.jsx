@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
 import Posts from "../../components/common/Posts";
@@ -11,8 +11,14 @@ import { FaArrowLeft } from "react-icons/fa6";
 import { IoCalendarOutline } from "react-icons/io5";
 import { FaLink } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";
+import { useQuery } from "@tanstack/react-query";
 
 const ProfilePage = () => {
+
+	// useQuery({
+	// 	queryKey: ['authUser'],
+	// });
+
 	const [coverImg, setCoverImg] = useState(null);
 	const [profileImg, setProfileImg] = useState(null);
 	const [feedType, setFeedType] = useState("posts");
@@ -22,6 +28,15 @@ const ProfilePage = () => {
 
 	const isLoading = false;
 	const isMyProfile = true;
+
+	// const {data} = useQuery({queryKey: ["authUser"]});
+	// const {user} = useQuery({queryKey: ["authUser"]});
+	// const {user} = useQuery({queryKey: ["authUser"]});
+
+	// useEffect(()=>{
+	// 	// console.log(`${data._id} ${data.username} ${data.fullname} bio: ${data.bio}`);
+	// 	console.log(`At profile page : ${data.}`)
+	// },[]);
 
 	const user = {
 		_id: "1",
@@ -61,7 +76,10 @@ const ProfilePage = () => {
 									<FaArrowLeft className='w-4 h-4' />
 								</Link>
 								<div className='flex flex-col'>
-									<p className='font-bold text-lg'>{user?.fullName}</p>
+									<p className='font-bold text-lg'>
+										{user?.fullName}
+										{/* {data?.fullname} */}
+										</p>
 									<span className='text-sm text-slate-500'>{POSTS?.length} posts</span>
 								</div>
 							</div>
