@@ -12,9 +12,9 @@ import { FaArrowLeft } from "react-icons/fa6";
 import { IoCalendarOutline } from "react-icons/io5";
 import { FaLink } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery} from "@tanstack/react-query";
 import { formatMemberSinceDate } from "../../utils/date";
-import toast from "react-hot-toast";
+import useUpdateUserProfile from "../../components/hooks/useUpdateUserProfile.jsx";
 
 const ProfilePage = () => {
 	const [coverImg, setCoverImg] = useState(null);
@@ -27,7 +27,6 @@ const ProfilePage = () => {
 	const {username} = useParams();
 
 	const {follow, isPending} = useFollow();
-	const queryClient = useQueryClient();
 	// const isLoading = false;
 	
 
@@ -64,35 +63,7 @@ const ProfilePage = () => {
 		}
 	};
 
-	
-	const {mutate:updateProfile, isPending: isUpdatingProfile} = useMutation({
-		mutationFn: async () => {
-			const res = await fetch("/api/users/update", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					coverImg,
-					profileImg,
-				})
-			});
-			const data = await res.json();
-			if(!res.ok) {
-				throw new Error(data.error || "Something went wrong!");
-			}
-		},
-		onSuccess: () => {
-			toast.success("Profile updated successfully!");
-			Promise.all([
-				queryClient.invalidateQueries({queryKey: ["authUser"]}),
-				queryClient.invalidateQueries({queryKey: ["userProfile"]})
-			]);
-		},
-		onError: (error) => {
-			toast.error(error.message);
-		}
-	});
+	const {updateProfile, isUpdatingProfile} = useUpdateUserProfile(); 
 
 	const amIFollowing = authUser?.following.includes(user?._id);
 
@@ -184,7 +155,11 @@ const ProfilePage = () => {
 								{(coverImg || profileImg) && (
 									<button
 										className='btn btn-primary rounded-full btn-sm text-white px-4 ml-2'
-										onClick={() => updateProfile()}
+										onClick={ async () => {
+											await updateProfile({coverImg, profileImg});
+											setProfileImg(null);
+											setCoverImg(null);
+										}}
 									>
 										{isUpdatingProfile? "Updating..." : "Update"}
 									</button>
