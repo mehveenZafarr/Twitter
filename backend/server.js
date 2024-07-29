@@ -23,7 +23,7 @@ const app = express();
 app.use(cors(
     {
         origin: "https://twitter-backend.vercel.app",
-        methods: ["POST", "GET"],
+        methods: ["POST", "GET", "DELETE", "PUT"],
         credentials: true
     }
 ));
