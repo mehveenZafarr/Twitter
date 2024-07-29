@@ -20,13 +20,13 @@ cloudinary.config({
 });
 const app = express();
 
-app.use(cors(
-    {
-        origin: "https://twitter-backend.vercel.app",
-        methods: ["POST", "GET", "DELETE", "PUT"],
-        credentials: true
-    }
-));
+// app.use(cors(
+//     {
+//         origin: "https://twitter-backend.vercel.app",
+//         methods: ["POST", "GET", "DELETE", "PUT"],
+//         credentials: true
+//     }
+// ));
 const port = process.env.PORT || 5000
 const __dirname = path.resolve()
 
