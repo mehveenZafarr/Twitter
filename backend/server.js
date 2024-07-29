@@ -8,6 +8,7 @@ import { v2 as cloudinary } from "cloudinary";
 import postRoutes from './routes/postRoutes.js';
 import notificationRoutes from './routes/notificationRoutes.js';
 import path from "path";
+import cors from 'cors';
 // import bodyParser from 'body-parser';
 
 
@@ -18,6 +19,12 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET
 });
 const app = express();
+
+// app.use(cors(
+//     {
+//         origin: 
+//     }
+// ));
 const port = process.env.PORT || 5000
 const __dirname = path.resolve()
 
